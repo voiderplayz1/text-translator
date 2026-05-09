@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bröthër Tränslätör</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    :root {
+        --sky-top: #b8e4f9;
+        --sky-mid: #d6f0ff;
+        --sky-bottom: #eaf9ff;
+        --glass-bg: rgba(255,255,255,0.45);
+        --glass-border: rgba(255,255,255,0.75);
+        --glass-shadow: rgba(100,180,255,0.18);
+        --teal: #1a9ebf;
+        --teal-light: #4ec9e8;
+        --teal-dark: #0d7a99;
+        --green: #5cc85a;
+        --text-dark: #1a3a4a;
+        --text-mid: #2e6a82;
+        --text-light: #6aafc7;
+    }
+
+    body {
+        font-family: 'Nunito Sans', sans-serif;
+        min-height: 100vh;
+        background:
+            radial-gradient(ellipse at 20% 80%, rgba(130,220,180,0.35) 0%, transparent 55%),
+            radial-gradient(ellipse at 80% 10%, rgba(100,200,255,0.45) 0%, transparent 55%),
+            radial-gradient(ellipse at 50% 50%, rgba(180,230,255,0.2) 0%, transparent 70%),
+            linear-gradient(175deg, #a8d8f0 0%, #c8ecff 35%, #dff5ff 60%, #e8faf2 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Aero orbs / bokeh */
+    body::before, body::after {
+        content: '';
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+    }
+    body::before {
+        width: 420px; height: 420px;
+        background: radial-gradient(circle, rgba(255,255,255,0.55) 0%, rgba(130,210,255,0.18) 50%, transparent 70%);
+        top: -100px; left: -120px;
+        animation: floatOrb 9s ease-in-out infinite alternate;
+    }
+    body::after {
+        width: 320px; height: 320px;
+        background: radial-gradient(circle, rgba(160,255,200,0.38) 0%, rgba(80,200,160,0.1) 55%, transparent 70%);
+        bottom: -80px; right: -80px;
+        animation: floatOrb 11s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatOrb {
+        from { transform: translate(0,0) scale(1); }
+        to   { transform: translate(30px, 20px) scale(1.08); }
+    }
+
+    .extra-orb {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+        width: 200px; height: 200px;
+        background: radial-gradient(circle, rgba(255,220,120,0.22) 0%, transparent 70%);
+        top: 40%; right: 5%;
+        animation: floatOrb 13s ease-in-out infinite alternate;
+    }
+
+    /* Main card */
+    .card {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 780px;
+        background: linear-gradient(145deg, rgba(255,255,255,0.6) 0%, rgba(220,245,255,0.45) 100%);
+        border: 1.5px solid var(--glass-border);
+        border-radius: 24px;
+        box-shadow:
+            0 8px 32px rgba(40,140,200,0.14),
+            0 2px 8px rgba(255,255,255,0.5) inset,
+            0 -1px 0 rgba(100,190,255,0.2) inset;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        overflow: hidden;
+        animation: cardIn 0.6s cubic-bezier(0.23,1,0.32,1) both;
+    }
+
+    @keyframes cardIn {
+        from { opacity: 0; transform: translateY(28px) scale(0.97); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Top bar */
+    .topbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 20px 14px;
+        background: linear-gradient(90deg, rgba(30,160,210,0.92) 0%, rgba(20,130,180,0.88) 100%);
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+        box-shadow: 0 2px 12px rgba(20,120,170,0.25);
+    }
+
+    .logo-sphere {
+        width: 34px; height: 34px;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95) 0%, rgba(120,220,255,0.7) 40%, rgba(0,160,220,0.85) 100%);
+        box-shadow: 0 2px 8px rgba(0,100,180,0.4), 0 0 0 2px rgba(255,255,255,0.35);
+        flex-shrink: 0;
+    }
+
+    .app-title {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 800;
+        font-size: 1.25rem;
+        color: #fff;
+        text-shadow: 0 1px 4px rgba(0,80,140,0.4);
+        letter-spacing: 0.01em;
+    }
+
+    .app-title span {
+        opacity: 0.8;
+        font-weight: 600;
+    }
+
+    .badge {
+        margin-left: auto;
+        background: rgba(255,255,255,0.22);
+        border: 1px solid rgba(255,255,255,0.4);
+        border-radius: 20px;
+        padding: 3px 12px;
+        font-size: 0.72rem;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+        color: rgba(255,255,255,0.92);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    /* Language bar */
+    .lang-bar {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        background: rgba(255,255,255,0.35);
+        border-bottom: 1px solid rgba(200,235,255,0.6);
+        gap: 8px;
+    }
+
+    .lang-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: default;
+        letter-spacing: 0.02em;
+        transition: all 0.2s;
+    }
+
+    .lang-pill.active {
+        background: linear-gradient(135deg, rgba(30,158,191,0.18) 0%, rgba(78,201,232,0.22) 100%);
+        border: 1.5px solid rgba(30,158,191,0.45);
+        color: var(--teal-dark);
+        box-shadow: 0 2px 8px rgba(30,158,191,0.12);
+    }
+
+    .lang-pill.inactive {
+        color: var(--text-light);
+        border: 1.5px solid transparent;
+    }
+
+    .lang-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+    }
+    .lang-dot.en { background: linear-gradient(135deg, #4ec9e8, #1a9ebf); }
+    .lang-dot.um { background: linear-gradient(135deg, #5cc85a, #3aa63a); }
+
+    .swap-btn {
+        margin: 0 4px;
+        width: 34px; height: 34px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(200,240,255,0.5));
+        border: 1.5px solid rgba(255,255,255,0.8);
+        box-shadow: 0 2px 8px rgba(30,150,200,0.15);
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: var(--teal);
+        font-size: 1rem;
+    }
+    .swap-btn:hover {
+        background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(180,235,255,0.7));
+        box-shadow: 0 4px 14px rgba(30,150,200,0.25);
+        transform: rotate(180deg) scale(1.08);
+    }
+
+    /* Panels */
+    .panels {
+        display: flex;
+        min-height: 220px;
+    }
+
+    .panel {
+        flex: 1;
+        padding: 18px 20px;
+        position: relative;
+    }
+
+    .panel-left {
+        border-right: 1px solid rgba(180,225,255,0.5);
+    }
+
+    .panel-label {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .panel-left .panel-label { color: var(--text-light); }
+    .panel-right .panel-label { color: #3eb85e; }
+
+    textarea {
+        width: 100%;
+        height: 160px;
+        background: transparent;
+        border: none;
+        outline: none;
+        resize: none;
+        font-family: 'Nunito Sans', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 400;
+        color: var(--text-dark);
+        line-height: 1.65;
+        caret-color: var(--teal);
+    }
+
+    textarea::placeholder {
+        color: rgba(100,175,200,0.6);
+    }
+
+    .output-text {
+        font-family: 'Nunito Sans', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #0f5c2a;
+        line-height: 1.65;
+        min-height: 160px;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+
+    .output-text.empty {
+        font-weight: 400;
+        color: rgba(80,180,100,0.45);
+        font-style: italic;
+    }
+
+    /* Clear button inside left panel */
+    .clear-btn {
+        position: absolute;
+        bottom: 14px; right: 14px;
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        background: rgba(200,230,245,0.6);
+        border: 1px solid rgba(150,210,240,0.5);
+        color: var(--text-light);
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.18s;
+        opacity: 0;
+    }
+    .clear-btn.visible { opacity: 1; }
+    .clear-btn:hover {
+        background: rgba(255,200,200,0.5);
+        border-color: rgba(255,150,150,0.5);
+        color: #c04040;
+    }
+
+    /* Copy button inside right panel */
+    .copy-btn {
+        position: absolute;
+        bottom: 14px; right: 14px;
+        display: flex; align-items: center; gap: 5px;
+        padding: 5px 12px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(92,200,90,0.2), rgba(58,166,58,0.25));
+        border: 1.5px solid rgba(92,200,90,0.45);
+        color: #2e7c30;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: all 0.18s;
+        opacity: 0;
+    }
+    .copy-btn.visible { opacity: 1; }
+    .copy-btn:hover {
+        background: linear-gradient(135deg, rgba(92,200,90,0.35), rgba(58,166,58,0.4));
+        box-shadow: 0 2px 10px rgba(80,180,80,0.2);
+    }
+    .copy-btn.copied {
+        background: linear-gradient(135deg, rgba(92,200,90,0.5), rgba(58,166,58,0.55));
+        color: #1a5c1c;
+    }
+
+    /* Bottom footer */
+    .footer {
+        padding: 10px 20px;
+        background: rgba(255,255,255,0.25);
+        border-top: 1px solid rgba(200,235,255,0.55);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .char-count {
+        font-size: 0.72rem;
+        color: var(--text-light);
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+    }
+
+    .char-count span { color: var(--teal); font-weight: 800; }
+
+    .footer-note {
+        margin-left: auto;
+        font-size: 0.68rem;
+        color: var(--text-light);
+        opacity: 0.7;
+    }
+
+    /* Bubble deco */
+    .bubble {
+        position: fixed;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.8) 0%, rgba(160,220,255,0.3) 50%, rgba(100,190,240,0.1) 100%);
+        border: 1px solid rgba(255,255,255,0.6);
+        pointer-events: none;
+        z-index: 0;
+        animation: bubbleFloat linear infinite;
+    }
+
+    @keyframes bubbleFloat {
+        0%   { transform: translateY(0) translateX(0); opacity: 0; }
+        10%  { opacity: 0.7; }
+        90%  { opacity: 0.5; }
+        100% { transform: translateY(-110vh) translateX(30px); opacity: 0; }
+    }
+
+    @media (max-width: 560px) {
+        .panels { flex-direction: column; }
+        .panel-left { border-right: none; border-bottom: 1px solid rgba(180,225,255,0.5); }
+        .card { border-radius: 18px; }
+    }
+</style>
+```
+
+</head>
+<body>
+
+<div class="extra-orb"></div>
+
+<!-- Floating bubbles -->
+
+<div class="bubble" style="width:18px;height:18px;left:8%;bottom:-20px;animation-duration:14s;animation-delay:0s;"></div>
+<div class="bubble" style="width:10px;height:10px;left:22%;bottom:-20px;animation-duration:18s;animation-delay:3s;"></div>
+<div class="bubble" style="width:24px;height:24px;left:40%;bottom:-20px;animation-duration:11s;animation-delay:6s;"></div>
+<div class="bubble" style="width:14px;height:14px;left:60%;bottom:-20px;animation-duration:16s;animation-delay:1.5s;"></div>
+<div class="bubble" style="width:8px;height:8px;left:75%;bottom:-20px;animation-duration:20s;animation-delay:8s;"></div>
+<div class="bubble" style="width:20px;height:20px;left:88%;bottom:-20px;animation-duration:13s;animation-delay:4s;"></div>
+
+<div class="card">
+    <!-- Top bar -->
+    <div class="topbar">
+        <div class="logo-sphere"></div>
+        <div class="app-title">Bröthër <span>Tränslätör</span></div>
+        <div class="badge">v2.0</div>
+    </div>
+
+```
+<!-- Language selector bar -->
+<div class="lang-bar">
+    <div class="lang-pill active">
+        <div class="lang-dot en"></div>
+        Normal
+    </div>
+    <button class="swap-btn" title="Swap languages">⇄</button>
+    <div class="lang-pill active">
+        <div class="lang-dot um"></div>
+        Ümläüt
+    </div>
+</div>
+
+<!-- Editor panels -->
+<div class="panels">
+    <!-- Input -->
+    <div class="panel panel-left">
+        <div class="panel-label">Input</div>
+        <textarea id="input" placeholder="Tÿpë ör pästë tëxt hërë..."></textarea>
+        <button class="clear-btn" id="clearBtn" title="Clear">✕</button>
+    </div>
+
+    <!-- Output -->
+    <div class="panel panel-right">
+        <div class="panel-label">Tränslätëd</div>
+        <div class="output-text empty" id="output">Tränslätïön wïll äppëär hërë...</div>
+        <button class="copy-btn" id="copyBtn" title="Copy translation">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+        </button>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="char-count">Characters: <span id="charCount">0</span></div>
+    <div class="footer-note">All vowels replaced with ümläüts</div>
+</div>
+```
+
+</div>
+
+<script>
+    const input    = document.getElementById('input');
+    const output   = document.getElementById('output');
+    const clearBtn = document.getElementById('clearBtn');
+    const copyBtn  = document.getElementById('copyBtn');
+    const charCount = document.getElementById('charCount');
+
+    const vowelMap = {
+        'a':'ä','e':'ë','i':'ï','o':'ö','u':'ü','y':'ÿ',
+        'A':'Ä','E':'Ë','I':'Ï','O':'Ö','U':'Ü','Y':'Ÿ'
+    };
+
+    let translated = '';
+
+    input.addEventListener('input', () => {
+        const text = input.value;
+        charCount.textContent = text.length;
+
+        if (!text.trim()) {
+            output.textContent = 'Tränslätïön wïll äppëär hërë...';
+            output.classList.add('empty');
+            clearBtn.classList.remove('visible');
+            copyBtn.classList.remove('visible');
+            translated = '';
+            return;
+        }
+
+        translated = text.split('').map(c => vowelMap[c] || c).join('');
+        output.textContent = translated;
+        output.classList.remove('empty');
+        clearBtn.classList.add('visible');
+        copyBtn.classList.add('visible');
+    });
+
+    clearBtn.addEventListener('click', () => {
+        input.value = '';
+        input.dispatchEvent(new Event('input'));
+        input.focus();
+    });
+
+    copyBtn.addEventListener('click', () => {
+        if (!translated) return;
+        navigator.clipboard.writeText(translated).then(() => {
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+            setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
+            }, 2000);
+        });
+    });
+</script>
+
+</body>
+</html>
